@@ -18,21 +18,23 @@ public class BancoDados {
 	}
 
 	private static void consultar(Connection conn) throws SQLException {
-		String sql = "select * from cliente order by id_cliente";
+		String sql = "select * from produto order by id_produto";
 		// Obtém referência para uma sentença SQL.
 		PreparedStatement prepareStatement = conn.prepareStatement(sql);
 		// Executa a instrução SQL.
 		ResultSet rs = prepareStatement.executeQuery();
 		while (rs.next()) {
-			int id_cliente = rs.getInt("id cliente");
-			String nome_cliente = rs.getString("nome");
-			String cpf_cliente = rs.getString("cpf");
-			String endereco = rs.getInt("endereco");
+			int id_produto = rs.getInt("id produto");
+			String nome_produto = rs.getString("nome");
+			String fornecedor_produto = rs.getString("fornecedor");
+			double preco_compra = rs.getDouble("preco de compra");
+			double preco_venda = rs.getDouble("preco de venda");
 
-			System.out.println("Id cliente: " + id_cliente);
-			System.out.println("Nome cliente: " + nome_cliente);
-			System.out.println("Cpf cliente: " + cpf_cliente);
-			System.out.println("Endereco: " + endereco);
+			System.out.println("Id produto: " + id_produto);
+			System.out.println("Nome produto: " + nome_produto);
+			System.out.println("Fornecedor produto: " + fornecedor_produto);
+			System.out.println("Preco de compra: " + preco_compra);
+			System.out.println("Preco de venda: " + preco_venda);
 			System.out.println();
 		}
 		rs.close();
@@ -40,7 +42,7 @@ public class BancoDados {
 	}
 
 	private static void excluir(Connection conn) throws SQLException {
-		String sql = "delete from cliente where id_cliente=?";
+		String sql = "delete from produto where id_produto=?";
 		// Obtém referência para uma sentença SQL.
 		PreparedStatement prepareStatement = conn.prepareStatement(sql);
 		prepareStatement.setInt(1, 1);
@@ -50,10 +52,10 @@ public class BancoDados {
 	}
 
 	private static void alterar(Connection conn) throws SQLException {
-		String sql = "update cliente set nome_cliente=? where id_cliente=?";
+		String sql = "update produto set nome_produto=? where id_produto=?";
 		// Obtém referência para uma sentença SQL.
 		PreparedStatement prepareStatement = conn.prepareStatement(sql);
-		prepareStatement.setString(1, "Nome cliente");
+		prepareStatement.setString(1, "Nome produto");
 		prepareStatement.setInt(2, 1);
 		// Executa a instrução SQL.
 		prepareStatement.executeUpdate();
@@ -61,22 +63,23 @@ public class BancoDados {
 	}
 
 	private static void cadastrar(Connection conn) throws SQLException {
-		String sql = "insert into cliente (id_cliente, nome_cliente) values (?, ?)";
+		String sql = "insert into produto (id_produto, nome_produto) values (?, ?)";
 		// Obtém referência para uma sentença SQL.
 		PreparedStatement prepareStatement = conn.prepareStatement(sql);
 		prepareStatement.setInt(1, 2);
-		prepareStatement.setString(2, "Nome Cliente");
+		prepareStatement.setString(2, "Nome produto");
 		// Executa a instrução SQL.
 		prepareStatement.executeUpdate();
 		prepareStatement.close();
 	}
 
-	private static void criarTabelaCliente(Connection conn) throws SQLException {
-		String sql = "create table cliente (";
-		sql += "id_cliente int, ";
-		sql += "nome_cliente varchar(255) ";
-		sql += "cpf_cliente varchar(255) ";
-		sql += "endereco varchar(255), ";
+	private static void criarTabelaProduto(Connection conn) throws SQLException {
+		String sql = "create table produto (";
+		sql += "id_produto int, ";
+		sql += "nome_produto varchar(255) ";
+		sql += "fornecedor_produto varchar(255) ";
+		sql += "preco_compra double, ";
+		sql += "preco_venda double, ";
 		sql += ")";
 
 		// Obtém referência para uma sentença SQL.
